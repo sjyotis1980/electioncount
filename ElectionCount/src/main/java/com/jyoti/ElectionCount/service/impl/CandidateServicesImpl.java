@@ -3,15 +3,14 @@
  */
 package com.jyoti.ElectionCount.service.impl;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Service;
 
 import com.jyoti.ElectionCount.model.Candidates;
-import com.jyoti.ElectionCount.model.DataGenerator;
+
 import com.jyoti.ElectionCount.repository.CandidatesRepository;
 import com.jyoti.ElectionCount.service.CandidateServices;
 
@@ -21,16 +20,18 @@ import com.jyoti.ElectionCount.service.CandidateServices;
  */
 @Service
 public class CandidateServicesImpl implements CandidateServices {
-	
+
 	@Autowired
 	private CandidatesRepository candidatesRepository;
-	
-	
-	/* (non-Javadoc)
-	 * @see com.jyoti.ElectionCount.service.CandidateServices#save(com.jyoti.ElectionCount.model.Candidates)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jyoti.ElectionCount.service.CandidateServices#save(com.jyoti.
+	 * ElectionCount.model.Candidates)
 	 */
 	@Override
-	public void save(Map<String,String> map) {
+	public void save(Map<String, String> map) {
 		// TODO Auto-generated method stub
 		candidatesRepository.save(toEntity(map));
 	}
@@ -46,26 +47,16 @@ public class CandidateServicesImpl implements CandidateServices {
 		// TODO Auto-generated method stub
 		return candidatesRepository.findByCandidateId(candidateId);
 	}
-	
-	private Candidates toEntity(Map<String,String> map){
+
+	private Candidates toEntity(Map<String, String> map) {
 		Candidates candidates = new Candidates();
-		for (Map.Entry<String,String> entry : map.entrySet()){
-			
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+
 			candidates.setVoterId(entry.getKey());
 			candidates.setCandidateId(entry.getValue());
-			
+
 		}
 		return candidates;
-           // System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
 	}
-//	@Bean
-//    public Candidates candidatesService() {
-//        return new Candidates();
-//    }
 
-	
-	
-	
-
-	
 }

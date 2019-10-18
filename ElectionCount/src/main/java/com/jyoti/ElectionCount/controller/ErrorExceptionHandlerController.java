@@ -3,16 +3,10 @@
  */
 package com.jyoti.ElectionCount.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
 import com.jyoti.ElectionCount.model.DataNotFoundException;
 import com.jyoti.ElectionCount.model.ErrorResponse;
 
@@ -20,13 +14,13 @@ import com.jyoti.ElectionCount.model.ErrorResponse;
  * @author JyotiKumar
  *
  */
-@SuppressWarnings({"unchecked","rawtypes"})
+
 @ControllerAdvice
 public class ErrorExceptionHandlerController {
-	
+
 	@ExceptionHandler
-	public ResponseEntity<ErrorResponse> handleException(DataNotFoundException infe)  {
-	
+	public ResponseEntity<ErrorResponse> handleException(DataNotFoundException infe) {
+
 		ErrorResponse errorResp = null;
 		ResponseEntity<ErrorResponse> responseEntity = null;
 		// prepare the ErrorResponse
@@ -40,7 +34,7 @@ public class ErrorExceptionHandlerController {
 		return responseEntity;
 
 	}
-	
+
 	@ExceptionHandler
 	public ResponseEntity<ErrorResponse> handleException(Exception ex) {
 		ErrorResponse errorResp = null;
@@ -55,6 +49,5 @@ public class ErrorExceptionHandlerController {
 		// return the responseEntity Object
 		return responseEntity;
 	}
-
 
 }
