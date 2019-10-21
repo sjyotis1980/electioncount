@@ -3,7 +3,6 @@
  */
 package com.jyoti.ElectionCount.service.impl;
 
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,9 +30,9 @@ public class CandidateServicesImpl implements CandidateServices {
 	 * ElectionCount.model.Candidates)
 	 */
 	@Override
-	public void save(Map<String, String> map) {
+	public void save(Candidates candidates) {
 		// TODO Auto-generated method stub
-		candidatesRepository.save(toEntity(map));
+		candidatesRepository.save(candidates);
 	}
 
 	@Override
@@ -48,15 +47,5 @@ public class CandidateServicesImpl implements CandidateServices {
 		return candidatesRepository.findByCandidateId(candidateId);
 	}
 
-	private Candidates toEntity(Map<String, String> map) {
-		Candidates candidates = new Candidates();
-		for (Map.Entry<String, String> entry : map.entrySet()) {
-
-			candidates.setVoterId(entry.getKey());
-			candidates.setCandidateId(entry.getValue());
-
-		}
-		return candidates;
-	}
-
+	
 }

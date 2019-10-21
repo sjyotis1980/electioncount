@@ -22,7 +22,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
-import com.jyoti.ElectionCount.service.CandidateServices;
+
 
 /**
  * @author JyotiKumar
@@ -37,9 +37,7 @@ public class DataGenerator implements ApplicationRunner {
 	@Autowired
 	private BloomFilterManager bloomFilterManager;
 
-	@Autowired
-	private CandidateServices candidateServices;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -51,7 +49,7 @@ public class DataGenerator implements ApplicationRunner {
 	public void run(ApplicationArguments args) throws Exception {
 		log.info("Start run.....");
 		storeValidList();
-		addElection();
+	
 
 	}
 
@@ -76,52 +74,7 @@ public class DataGenerator implements ApplicationRunner {
 		}
 	}
 
-	public void addElection() throws IOException {
-		BufferedReader bufferedReader = null;
-		String strCurrentLine;
-		String voterId = null;
-		String candidateId = null;
-
-		try {
-
-			bufferedReader = fileReader("classpath:votersCandList.txt");
-
-			while (bufferedReader != null && (strCurrentLine = bufferedReader.readLine()) != null) {
-				if (strCurrentLine != null && (strCurrentLine.length() > 1 && strCurrentLine.length() <= 6)
-						|| strCurrentLine.length() > 6) {
-					voterId = strCurrentLine.substring(0, 6);
-					log.info("VoterId " + voterId);
-				}
-				if (strCurrentLine != null && strCurrentLine.length() > 6) {
-					candidateId = strCurrentLine.substring(7, strCurrentLine.length()).trim();
-					log.info("candidateId " + candidateId);
-				}
-
-				log.info(" The bf object " + bloomFilterManager.getBloomFilter().mightContain(voterId) + "   "
-						+ voterId);
-
-				if (bloomFilterManager.getBloomFilter().mightContain(voterId)) {
-
-					log.info(" putting values in electionMap ##### " + voterId);
-					electionMap.put(voterId, candidateId);
-
-				} else {
-
-					log.info("Invalid Voter " + voterId);
-				}
-
-				candidateServices.save(electionMap);
-				log.info("candidateServices.save completed ");
-			}
-		} finally {
-
-			if (bufferedReader != null)
-				bufferedReader.close();
-
-		}
-
-	}
-
+	
 	public BufferedReader fileReader(String path) throws FileNotFoundException {
 
 		BufferedReader objReader = null;

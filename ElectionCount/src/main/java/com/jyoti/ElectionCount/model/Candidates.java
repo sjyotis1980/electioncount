@@ -26,6 +26,19 @@ public class Candidates implements Serializable {
 
 	private String candidateId;
 
+	public Candidates(){
+		
+	}
+	/**
+	 * @param voterId
+	 * @param candidateId
+	 */
+	public Candidates(String voterId, String candidateId) {
+		super();
+		this.voterId = voterId;
+		this.candidateId = candidateId;
+	}
+
 	/**
 	 * @return the voterId
 	 */

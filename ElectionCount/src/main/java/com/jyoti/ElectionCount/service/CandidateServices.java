@@ -3,7 +3,7 @@
  */
 package com.jyoti.ElectionCount.service;
 
-import java.util.Map;
+import com.jyoti.ElectionCount.model.Candidates;
 
 /**
  * @author JyotiKumar
@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public interface CandidateServices {
 
-	void save(Map<String, String> map);
+	void save(Candidates candidates);
 
 	String getCandidate(String voterId);
 
