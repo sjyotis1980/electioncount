@@ -1,9 +1,6 @@
 package com.jyoti.ElectionCount;
 
 import static org.junit.Assert.assertEquals;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +16,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ElectionCountApplicationTests {
-
-	private MockMvc mockMvc;
 
 	@LocalServerPort
 	private int port;
@@ -40,16 +35,8 @@ public class ElectionCountApplicationTests {
 	@Autowired
 	private TestRestTemplate template;
 
-	@Autowired
-	private WebApplicationContext context;
-
-	@Before
-	public void setup() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
-	}
-
 	@Test
-	public void contextLoads() throws Exception {
+	public void testAcontextLoads() throws Exception {
 
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
@@ -60,5 +47,30 @@ public class ElectionCountApplicationTests {
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 
 	}
-
+    
+	
+	@Test
+	public void testBcandidateData() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+		String value = "835";
+		
+		ResponseEntity<String> response = template.withBasicAuth("admin", "admin").exchange(getRootUrl() + "/api/test/candidateData/200001",
+				HttpMethod.GET, entity, String.class);
+		System.out.println(response.getBody());
+		assertEquals(value, response.getBody()) ;
+	}
+	
+	@Test
+	public void testCvotingCount() {
+		HttpHeaders headers = new HttpHeaders();
+		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+		Integer value = 423;
+		
+		ResponseEntity<Integer> response = template.withBasicAuth("admin", "admin").exchange(getRootUrl() + "/api/test/votingCount/835",
+				HttpMethod.GET, entity, Integer.class);
+		System.out.println(response.getBody());
+		assertEquals(value, response.getBody()) ;
+	}
+ 
 }

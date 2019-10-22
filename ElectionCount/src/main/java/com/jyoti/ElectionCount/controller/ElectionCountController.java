@@ -44,6 +44,26 @@ public class ElectionCountController {
 	
 	@Autowired
 	private CandidateServices candidateServices;
+	
+	@GetMapping("/load")
+    public BatchStatus load() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException{
+    
+    	Map<String, JobParameter> maps = new HashMap<>();
+    	maps.put("time", new JobParameter(System.currentTimeMillis()));
+    	
+    	JobParameters parameters = new JobParameters(maps);
+    	JobExecution jobExecution = jobLauncher.run(job, parameters); 
+    	
+    	System.out.println("jobExecution: "+jobExecution.getStatus());
+    	
+    	System.out.println("Batch is Running....");
+    	while(jobExecution.isRunning()){
+    		System.out.println("....");
+    	}
+    	
+    	return jobExecution.getStatus();
+    }
+
 
 	@GetMapping("/candidateData/{voterId}")
 	public ResponseEntity<String> candidateData(@PathVariable(name = "voterId") String voterId)
@@ -66,23 +86,5 @@ public class ElectionCountController {
 		return new ResponseEntity<Integer>(resultMsg, HttpStatus.OK);
 	}
 	
-    @GetMapping("/load")
-    public BatchStatus load() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException{
     
-    	Map<String, JobParameter> maps = new HashMap<>();
-    	maps.put("time", new JobParameter(System.currentTimeMillis()));
-    	
-    	JobParameters parameters = new JobParameters(maps);
-    	JobExecution jobExecution = jobLauncher.run(job, parameters); 
-    	
-    	System.out.println("jobExecution: "+jobExecution.getStatus());
-    	
-    	System.out.println("Batch is Running....");
-    	while(jobExecution.isRunning()){
-    		System.out.println("....");
-    	}
-    	
-    	return jobExecution.getStatus();
-    }
-
 }
